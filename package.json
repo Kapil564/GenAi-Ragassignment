@@ -1,0 +1,35 @@
+{
+  "name": "documind-rag",
+  "version": "1.0.0",
+  "description": "A RAG-powered document Q&A application — upload any PDF or text file and chat with it.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "rag",
+    "langchain",
+    "qdrant",
+    "openai",
+    "document-qa"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@langchain/community": "^1.1.28",
+    "@langchain/core": "^1.1.45",
+    "@langchain/google-genai": "^2.1.30",
+    "@langchain/openai": "^1.4.5",
+    "@langchain/qdrant": "^1.0.2",
+    "@langchain/textsplitters": "^1.0.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "openai": "^6.36.0",
+    "pdf-parse": "^2.4.5"
+  }
+}

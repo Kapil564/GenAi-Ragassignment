@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DocuMind — Chat With Your Documents</title>
+  <meta name="description" content="Upload any PDF or text document and have an intelligent conversation with it using RAG-powered AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- ======== NAVBAR ======== -->
+  <nav id="navbar">
+    <div class="nav-brand">
+      <div class="brand-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+      </div>
+      <span class="brand-name">DocuMind</span>
+    </div>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#how-it-works" class="nav-link">How It Works</a>
+    </div>
+  </nav>
+
+  <!-- ======== HERO / LANDING ======== -->
+  <section id="hero-section">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🤖 RAG-Powered Document Intelligence</div>
+      <h1>Chat with your <span class="gradient-text">Documents</span></h1>
+      <p class="hero-subtitle">
+        Upload any PDF or text file. Ask questions in natural language.
+        Get answers grounded in your document's actual content — not AI hallucinations.
+      </p>
+      <button id="get-started-btn" class="btn-primary btn-lg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload & Start Chatting
+      </button>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-card card-1">
+        <div class="card-icon">📄</div>
+        <div class="card-label">PDF Upload</div>
+      </div>
+      <div class="floating-card card-2">
+        <div class="card-icon">🧠</div>
+        <div class="card-label">Smart Chunking</div>
+      </div>
+      <div class="floating-card card-3">
+        <div class="card-icon">🔍</div>
+        <div class="card-label">Vector Search</div>
+      </div>
+      <div class="floating-card card-4">
+        <div class="card-icon">💬</div>
+        <div class="card-label">AI Answers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== FEATURES ======== -->
+  <section id="features">
+    <h2 class="section-title">Powered by a <span class="gradient-text">Full RAG Pipeline</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📥</div>
+        <h3>Document Ingestion</h3>
+        <p>Upload PDF or plain text files up to 20 MB. The system extracts text from every page automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✂️</div>
+        <h3>Recursive Chunking</h3>
+        <p>Text is split using <strong>RecursiveCharacterTextSplitter</strong> — preserving paragraphs & sentence boundaries with 200-char overlap.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧬</div>
+        <h3>Google Embeddings</h3>
+        <p>Each chunk is embedded with <strong>text-embedding-004</strong> — Google's high-quality embedding model.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗄️</div>
+        <h3>Qdrant Vector DB</h3>
+        <p>Embeddings are indexed in <strong>Qdrant</strong> for blazing-fast similarity search with cosine distance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔎</div>
+        <h3>Semantic Retrieval</h3>
+        <p>Your question is embedded and matched against the top-5 most relevant chunks from the document.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>Grounded Generation</h3>
+        <p>Gemini 2.0 Flash generates answers strictly from the retrieved context — not from its general knowledge.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== HOW IT WORKS ======== -->
+  <section id="how-it-works">
+    <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Upload Your Document</h3>
+          <p>Drag & drop or click to select a PDF or TXT file. The system accepts files up to 20 MB.</p>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Automatic Processing</h3>
+          <p>The document is chunked, embedded, and indexed into a vector database in seconds.</p>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Ask Questions</h3>
+          <p>Type any question about your document in natural language.</p>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>Get Grounded Answers</h3>
+          <p>The AI retrieves the most relevant sections and generates an accurate answer with page references.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== APP (Upload + Chat) ======== -->
+  <section id="app-section" class="hidden">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div class="sidebar-header">
+          <div class="brand-icon-sm">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </div>
+          <span>DocuMind</span>
+        </div>
+
+        <button id="new-upload-btn" class="btn-outline-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Document
+        </button>
+
+        <div id="documents-list" class="documents-list">
+          <p class="sidebar-empty">No documents yet.</p>
+        </div>
+
+        <div class="sidebar-footer">
+          <button id="back-to-landing" class="btn-ghost">← Back to Home</button>
+        </div>
+      </aside>
+
+      <!-- Main area -->
+      <main id="main-area">
+        <!-- Upload panel (shown when no doc is active) -->
+        <div id="upload-panel">
+          <div class="upload-zone" id="upload-zone">
+            <div class="upload-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <h2>Upload a Document</h2>
+            <p>Drag & drop your file here, or click to browse</p>
+            <p class="upload-hint">Supports PDF and TXT files (max 20 MB)</p>
+            <input type="file" id="file-input" accept=".pdf,.txt" hidden />
+          </div>
+
+          <!-- Progress bar -->
+          <div id="upload-progress" class="upload-progress hidden">
+            <div class="progress-info">
+              <span id="progress-filename">file.pdf</span>
+              <span id="progress-status">Processing…</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat panel (shown when a doc is active) -->
+        <div id="chat-panel" class="hidden">
+          <div class="chat-header">
+            <div class="chat-doc-info">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              <span id="chat-doc-name">Document Name</span>
+            </div>
+            <div class="chat-doc-meta">
+              <span id="chat-doc-meta-text"></span>
+            </div>
+          </div>
+
+          <div id="chat-messages" class="chat-messages">
+            <div class="welcome-message">
+              <div class="welcome-icon">💬</div>
+              <h3>Document ready!</h3>
+              <p>Ask any question about your document and I'll find the answer from its content.</p>
+            </div>
+          </div>
+
+          <div class="chat-input-area">
+            <div class="chat-input-wrapper">
+              <textarea
+                id="chat-input"
+                placeholder="Ask a question about your document…"
+                rows="1"
+              ></textarea>
+              <button id="send-btn" class="send-btn" disabled>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </button>
+            </div>
+            <p class="chat-disclaimer">Answers are generated from your document content only.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <script src="/app.js"></script>
+</body>
+</html>
