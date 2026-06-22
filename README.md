@@ -20,19 +20,25 @@ DocuMind is a full **Retrieval-Augmented Generation (RAG)** application that let
 
 ---
 
-## 🏗️ Architecture — RAG Pipeline
+## 🏗️ Architecture — Corrective RAG (CRAG) Pipeline
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌──────────────────────┐     ┌──────────┐
 │   Upload     │ ──▶ │   Chunking   │ ──▶ │   Embedding          │ ──▶ │  Qdrant  │
-│  (PDF/TXT)   │     │ Recursive    │     │ text-embedding-004   │     │ Vector DB│
+│  (PDF/TXT)   │     │ Recursive    │     │ text-embedding-3-sm  │     │ Vector DB│
 └─────────────┘     │ CharSplitter │     └──────────────────────┘     └──────────┘
                      └──────────────┘                                       │
                                                                             ▼
 ┌─────────────┐     ┌──────────────┐     ┌──────────────────────┐     ┌──────────┐
-│   Answer     │ ◀── │  Generation  │ ◀── │   Retrieval          │ ◀── │  Query   │
-│  + Sources   │     │ Gemini Flash │     │ Top-5 similar chunks │     │  Embed   │
+│   Answer     │ ◀── │  Generation  │ ◀── │  Relevance Grader    │ ◀── │  Query   │
+│  + Sources   │     │ (GPT-4o-Mini)│     │  (Correct/Incorrect) │     │  Retriev │
 └─────────────┘     └──────────────┘     └──────────────────────┘     └──────────┘
+                            ▲                        │
+                            │                        ▼ [Irrelevant / Ambiguous]
+                            │            ┌──────────────────────┐
+                            └─────────── │  Web Search Fallback │
+                                         │ (Tavily/Wikipedia/DDG)│
+                                         └──────────────────────┘
 ```
 
 ### Pipeline Steps
@@ -40,11 +46,13 @@ DocuMind is a full **Retrieval-Augmented Generation (RAG)** application that let
 | Step | Technology | Description |
 |------|-----------|-------------|
 | **Ingestion** | `@langchain/community` PDFLoader | Extracts text from PDF pages; also supports plain `.txt` files |
-| **Chunking** | `RecursiveCharacterTextSplitter` | Splits text using `["\n\n", "\n", " ", ""]` separators. Chunk size: 1000 chars, overlap: 200 chars. Preserves paragraph & sentence boundaries. |
-| **Embedding** | `text-embedding-004` (openAi) | Converts each chunk into a 768-dim vector embedding |
+| **Chunking** | `RecursiveCharacterTextSplitter` | Splits text using `["\n\n", "\n", " ", ""]` separators. Chunk size: 1000 chars, overlap: 200 chars. |
+| **Embedding** | `text-embedding-3-small` (OpenAI / GitHub Models) | Converts each chunk into a 1536-dim vector embedding |
 | **Storage** | Qdrant Vector Database | Indexes embeddings for cosine-similarity search |
 | **Retrieval** | LangChain Retriever (k=5) | Embeds the user query and finds the 5 most relevant chunks |
-| **Generation** |  Generates an answer strictly from retrieved context, with page refs |
+| **Evaluation (CRAG)** | Relevance Grader (LLM) | Evaluates the retrieved chunks against the query. Classifies retrieval as **Correct** (all relevant), **Ambiguous** (some relevant), or **Incorrect** (none relevant). |
+| **Web Search Fallback** | Tavily / Wikipedia / DuckDuckGo | If evaluation is Ambiguous or Incorrect, queries external search engines to supplement or replace the context. |
+| **Generation** | GPT-4o-mini (GitHub Models) | Generates a grounded final answer using document context and search results. |
 
 ---
 
@@ -102,7 +110,8 @@ cp .env.example .env
 Edit `.env`:
 
 ```env
-Github Token=your-github-token-here
+GITHUB_TOKEN=your-github-token-here
+TAVILY_API_KEY=your-tavily-key-here    # Optional: for web search fallback
 QDRANT_URL=http://localhost:6333      # or your Qdrant Cloud URL
 QDRANT_API_KEY=                        # required for Qdrant Cloud
 PORT=3000
@@ -155,9 +164,10 @@ RAG-Assignment/
 |-----------|-----------|
 | Backend | Express.js (Node.js) |
 | Frontend | Vanilla HTML/CSS/JS |
-| LLM | Open ai model |
-| Embeddings | open ai text-embedding from github marketplace |
+| LLMs | GPT-4o-mini, GPT-4o, Mistral-small (via GitHub Models) |
+| Embeddings | `text-embedding-3-small` (via GitHub Models) |
 | Vector DB | Qdrant |
+| Web Search | Tavily API (prioritized) / Wikipedia Search API / DuckDuckGo HTML |
 | Document Loading | LangChain PDFLoader |
 | Text Splitting | LangChain RecursiveCharacterTextSplitter |
 | File Upload | Multer |
@@ -174,7 +184,7 @@ RAG-Assignment/
 4. Set:
    - **Build Command:** `npm install --legacy-peer-deps`
    - **Start Command:** `npm start`
-5. Add environment variables (`Github Token`, `QDRANT_URL`, `QDRANT_API_KEY`)
+5. Add environment variables (`GITHUB_TOKEN`, `TAVILY_API_KEY`, `QDRANT_URL`, `QDRANT_API_KEY`)
 6. Use [Qdrant Cloud](https://cloud.qdrant.io) (free tier) as your vector DB
 
 ---
