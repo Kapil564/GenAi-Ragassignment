@@ -41,10 +41,10 @@ DocuMind is a full **Retrieval-Augmented Generation (RAG)** application that let
 |------|-----------|-------------|
 | **Ingestion** | `@langchain/community` PDFLoader | Extracts text from PDF pages; also supports plain `.txt` files |
 | **Chunking** | `RecursiveCharacterTextSplitter` | Splits text using `["\n\n", "\n", " ", ""]` separators. Chunk size: 1000 chars, overlap: 200 chars. Preserves paragraph & sentence boundaries. |
-| **Embedding** | `text-embedding-004` (Google) | Converts each chunk into a 768-dim vector embedding |
+| **Embedding** | `text-embedding-004` (openAi) | Converts each chunk into a 768-dim vector embedding |
 | **Storage** | Qdrant Vector Database | Indexes embeddings for cosine-similarity search |
 | **Retrieval** | LangChain Retriever (k=5) | Embeds the user query and finds the 5 most relevant chunks |
-| **Generation** | Gemini 2.0 Flash (Google) | Generates an answer strictly from retrieved context, with page refs |
+| **Generation** |  Generates an answer strictly from retrieved context, with page refs |
 
 ---
 
@@ -77,7 +77,7 @@ We use **`RecursiveCharacterTextSplitter`** from LangChain, which is the recomme
 ### Prerequisites
 
 - **Node.js** ≥ 18
-- **Google Gemini API Key** — [Get one here](https://aistudio.google.com/apikey)
+- **Github token** 
 - **Qdrant** — Either:
   - Local: `docker run -p 6333:6333 qdrant/qdrant`
   - Cloud: [Free tier at cloud.qdrant.io](https://cloud.qdrant.io)
@@ -102,7 +102,7 @@ cp .env.example .env
 Edit `.env`:
 
 ```env
-GEMINI_API_KEY=your-gemini-key-here
+Github Token=your-github-token-here
 QDRANT_URL=http://localhost:6333      # or your Qdrant Cloud URL
 QDRANT_API_KEY=                        # required for Qdrant Cloud
 PORT=3000
@@ -155,8 +155,8 @@ RAG-Assignment/
 |-----------|-----------|
 | Backend | Express.js (Node.js) |
 | Frontend | Vanilla HTML/CSS/JS |
-| LLM | Google Gemini 2.0 Flash |
-| Embeddings | Google text-embedding-004 |
+| LLM | Open ai model |
+| Embeddings | open ai text-embedding from github marketplace |
 | Vector DB | Qdrant |
 | Document Loading | LangChain PDFLoader |
 | Text Splitting | LangChain RecursiveCharacterTextSplitter |
@@ -174,7 +174,7 @@ RAG-Assignment/
 4. Set:
    - **Build Command:** `npm install --legacy-peer-deps`
    - **Start Command:** `npm start`
-5. Add environment variables (`GEMINI_API_KEY`, `QDRANT_URL`, `QDRANT_API_KEY`)
+5. Add environment variables (`Github Token`, `QDRANT_URL`, `QDRANT_API_KEY`)
 6. Use [Qdrant Cloud](https://cloud.qdrant.io) (free tier) as your vector DB
 
 ---
