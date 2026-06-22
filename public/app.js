@@ -268,7 +268,7 @@ async function sendMessage() {
 
     if (!res.ok) throw new Error(data.error || "Chat failed");
 
-    appendMessage("assistant", data.answer, data.sources);
+    appendMessage("assistant", data.answer, data.sources, data.searchSources, data.cragSteps);
     chatHistory.push({ role: "assistant", content: data.answer });
   } catch (err) {
     removeTypingIndicator(typingEl);
@@ -276,11 +276,24 @@ async function sendMessage() {
   }
 }
 
-function appendMessage(role, content, sources) {
+function appendMessage(role, content, sources, searchSources, cragSteps) {
   const msgEl = document.createElement("div");
   msgEl.className = `message ${role}`;
 
   const avatarText = role === "user" ? "Y" : "🤖";
+
+  let cragTraceHtml = "";
+  if (role === "assistant" && cragSteps && cragSteps.length > 0) {
+    const stepItems = cragSteps.map(step => `<li>${escapeHtml(step)}</li>`).join("");
+    cragTraceHtml = `
+      <div class="crag-trace-container">
+        <div class="crag-trace-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.classList.toggle('active')">
+          <span class="crag-icon">⚙️</span> CRAG Pipeline Trace <span class="chevron">▼</span>
+        </div>
+        <ul class="crag-trace-list">${stepItems}</ul>
+      </div>
+    `;
+  }
 
   let sourcesHtml = "";
   if (sources && sources.length > 0) {
@@ -293,9 +306,39 @@ function appendMessage(role, content, sources) {
 
     sourcesHtml = `
       <div class="sources-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
-        📎 ${sources.length} source${sources.length > 1 ? "s" : ""} referenced
+        📎 ${sources.length} document source${sources.length > 1 ? "s" : ""} referenced
       </div>
       <div class="sources-list">${sourceItems}</div>
+    `;
+  }
+
+  let searchSourcesHtml = "";
+  if (searchSources && searchSources.length > 0) {
+    const searchItems = searchSources
+      .map((s) => {
+        let domain = "Web Search";
+        try {
+          if (s.url && s.url !== "https://duckduckgo.com") {
+            domain = new URL(s.url).hostname;
+          }
+        } catch (_) {}
+        return `
+          <div class="source-item">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+              <span class="source-badge search-badge">Web: ${escapeHtml(domain)}</span>
+              <a href="${escapeHtml(s.url)}" target="_blank" class="source-link" style="color: var(--accent-2); font-weight: 500; font-size: 0.8rem; text-decoration: underline;">${escapeHtml(s.title)}</a>
+            </div>
+            <div class="source-preview" style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4;">${escapeHtml(s.content)}</div>
+          </div>
+        `;
+      })
+      .join("");
+
+    searchSourcesHtml = `
+      <div class="sources-toggle search-sources-toggle" onclick="this.nextElementSibling.classList.toggle('open')">
+        🌐 ${searchSources.length} web search source${searchSources.length > 1 ? "s" : ""} referenced
+      </div>
+      <div class="sources-list">${searchItems}</div>
     `;
   }
 
@@ -304,8 +347,10 @@ function appendMessage(role, content, sources) {
   msgEl.innerHTML = `
     <div class="message-avatar">${avatarText}</div>
     <div class="message-content">
-      ${formattedContent}
+      ${cragTraceHtml}
+      <div class="message-text-body">${formattedContent}</div>
       ${sourcesHtml}
+      ${searchSourcesHtml}
     </div>
   `;
 

@@ -17,11 +17,11 @@
   --text-secondary: #a0a0b8;
   --text-muted: #65657a;
 
-  --accent-1: #6c5ce7;
-  --accent-2: #a855f7;
-  --accent-3: #6366f1;
-  --gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-  --gradient-text: linear-gradient(135deg, #a78bfa, #818cf8, #c084fc);
+  --accent-1: #e86521;
+  --accent-2: #e86521;
+  --accent-3: #e86521;
+  --gradient: linear-gradient(to right, #e86521 0%, #e86521 100%);
+  --gradient-text: linear-gradient(to right, #e86521 0%, #e86521 100%);
 
   --success: #22c55e;
   --error: #ef4444;
@@ -35,7 +35,7 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 60px rgba(108, 92, 231, 0.15);
+  --shadow-glow: 0 0 60px rgba(232, 101, 33, 0.15);
 
   --font: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -149,12 +149,12 @@ button {
   font-weight: 600;
   font-size: 1rem;
   transition: transform var(--transition), box-shadow var(--transition);
-  box-shadow: 0 4px 24px rgba(108, 92, 231, 0.35);
+  box-shadow: 0 4px 24px rgba(232, 101, 33, 0.35);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 32px rgba(108, 92, 231, 0.5);
+  box-shadow: 0 6px 32px rgba(232, 101, 33, 0.5);
 }
 
 .btn-lg {
@@ -179,7 +179,7 @@ button {
 .btn-outline-sm:hover {
   border-color: var(--accent-2);
   color: var(--accent-2);
-  background: rgba(168, 85, 247, 0.06);
+  background: rgba(232, 101, 33, 0.06);
 }
 
 .btn-ghost {
@@ -210,7 +210,7 @@ button {
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(108, 92, 231, 0.15), transparent 70%);
+  background: radial-gradient(circle, rgba(232, 101, 33, 0.15), transparent 70%);
   top: 10%;
   left: 50%;
   transform: translateX(-50%);
@@ -233,8 +233,8 @@ button {
   display: inline-block;
   padding: 0.4rem 1rem;
   border-radius: 999px;
-  background: rgba(108, 92, 231, 0.1);
-  border: 1px solid rgba(108, 92, 231, 0.25);
+  background: rgba(232, 101, 33, 0.1);
+  border: 1px solid rgba(232, 101, 33, 0.25);
   color: var(--accent-2);
   font-size: 0.8rem;
   font-weight: 600;
@@ -496,8 +496,8 @@ button {
 }
 
 .doc-item.active {
-  background: rgba(108, 92, 231, 0.1);
-  border-color: rgba(108, 92, 231, 0.3);
+  background: rgba(232, 101, 33, 0.1);
+  border-color: rgba(232, 101, 33, 0.3);
   color: var(--accent-2);
 }
 
@@ -554,7 +554,7 @@ button {
 .upload-zone:hover,
 .upload-zone.dragover {
   border-color: var(--accent-2);
-  background: rgba(168, 85, 247, 0.04);
+  background: rgba(232, 101, 33, 0.04);
   box-shadow: var(--shadow-glow);
 }
 
@@ -796,7 +796,7 @@ button {
   margin-top: 0.5rem;
   padding: 0.3rem 0.6rem;
   border-radius: 6px;
-  background: rgba(108, 92, 231, 0.08);
+  background: rgba(232, 101, 33, 0.08);
   color: var(--accent-2);
   font-size: 0.75rem;
   font-weight: 600;
@@ -805,7 +805,7 @@ button {
 }
 
 .sources-toggle:hover {
-  background: rgba(108, 92, 231, 0.15);
+  background: rgba(232, 101, 33, 0.15);
 }
 
 .sources-list {
@@ -890,7 +890,7 @@ button {
 
 .chat-input-wrapper:focus-within {
   border-color: var(--accent-2);
-  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.08);
+  box-shadow: 0 0 0 3px rgba(232, 101, 33, 0.08);
 }
 
 #chat-input {
@@ -930,7 +930,7 @@ button {
 
 .send-btn:not(:disabled):hover {
   transform: scale(1.06);
-  box-shadow: 0 2px 12px rgba(108, 92, 231, 0.4);
+  box-shadow: 0 2px 12px rgba(232, 101, 33, 0.4);
 }
 
 .send-btn:disabled {
@@ -960,6 +960,92 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+
+/* ---------- CRAG Pipeline Trace ---------- */
+.crag-trace-container {
+  margin-bottom: 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.crag-trace-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-2);
+  background: rgba(232, 101, 33, 0.05);
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--transition);
+}
+
+.crag-trace-toggle:hover {
+  background: rgba(232, 101, 33, 0.1);
+}
+
+.crag-trace-toggle .chevron {
+  font-size: 0.6rem;
+  transition: transform var(--transition);
+}
+
+.crag-trace-toggle.active .chevron {
+  transform: rotate(180deg);
+}
+
+.crag-trace-list {
+  display: none;
+  list-style: none;
+  padding: 0.6rem 0.75rem;
+  margin: 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.crag-trace-list.open {
+  display: block;
+}
+
+.crag-trace-list li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+.crag-trace-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0.25rem;
+  color: var(--accent-2);
+  font-weight: bold;
+}
+
+.crag-trace-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Web Search styling */
+.search-sources-toggle {
+  background: rgba(232, 101, 33, 0.08);
+  color: var(--accent-2);
+  margin-top: 0.5rem;
+}
+
+.search-sources-toggle:hover {
+  background: rgba(232, 101, 33, 0.15);
+}
+
+.search-badge {
+  background: rgba(232, 101, 33, 0.15) !important;
+  color: var(--accent-2) !important;
 }
 
 /* ---------- Responsive ---------- */
